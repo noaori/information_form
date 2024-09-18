@@ -20,5 +20,32 @@
         </div>
         <p id="message"></p>
     </form>
+
+    <script>
+        document.getElementById('driverecorder-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const drive_recorder = document.getElementById('drive_recorder').value;
+            const date = document.getElementById('date').value;
+
+            // Google Apps Script Web App URLを指定してください
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyCb90NTmEtLG7kiOsqsh89QLC8i1sG6I52IvBKWKB-CEVh06rMJjcyb1BdZdCe5uOI/exec'; // デプロイしたウェブアプリのURLに変更
+
+            fetch(scriptURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ drive_recorder, date })
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('message').textContent = 'フォームが送信されました。';
+                console.log('Success:', result);
+            })
+            .catch(error => {
+                document.getElementById('message').textContent = '送信中にエラーが発生しました。';
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>
